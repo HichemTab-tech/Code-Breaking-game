@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Code Breaking game - HichemTech</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+	<!-- Primary Meta Tags -->
+	<meta name="title" content="Code Breaking game - HichemTech">
+	<meta name="description" content="A simple game named 'Code Breaking' built as Web page with (Html, JavaScript, Jquery, Css, Bootstrap).">
+	<meta property="image" content="https://hichemtech.works/code-breaking/source/big-picture.png">
+	<meta property="image:secure_url" content="https://hichemtech.works/code-breaking/source/big-picture.png" />
+	<meta property="image:alt" content="Code Breaking game (Logo)" />
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://hichemtech.works/code-breaking">
+	<meta property="og:title" content="Code Breaking game - HichemTech">
+	<meta property="og:description" content="A simple game named 'Code Breaking' built as Web page with (Html, JavaScript, Jquery, Css, Bootstrap).">
+	<meta property="og:image" content="https://hichemtech.works/code-breaking/source/big-picture.png">
+	<meta property="og:image:secure_url" content="https://hichemtech.works/code-breaking/source/big-picture.png" />
+	<meta property="og:image:alt" content="Code Breaking game (Logo)" />
+	<meta property="fb:app_id" content="717203739588036"/>
+
+	<!-- Twitter -->
+	<meta property="twitter:card" content="summary_large_image">
+	<meta property="twitter:url" content="https://hichemtech.works/code-breaking">
+	<meta property="twitter:title" content="Code Breaking game - HichemTech">
+	<meta property="twitter:description" content="A simple game named 'Code Breaking' built as Web page with (Html, JavaScript, Jquery, Css, Bootstrap).">
+	<meta property="twitter:image" content="https://hichemtech.works/code-breaking/source/big-picture.png">
+	<meta property="twitter:image:secure_url" content="https://hichemtech.works/code-breaking/source/big-picture.png" />
+	<meta property="twitter:image:alt" content="Code Breaking game (Logo)" />
+
+
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface">
+	<link rel="stylesheet" type="text/css" href="assets/css/index.css">
+	<script src="assets/js/jquery-3.4.1.min.js"></script>
+	<link rel="icon" type="icon" href="assets/source/favicon.png">
+</head>
+<body onload="document.getElementById('wait').style.display='none';">
+	<div id="wait"><h1>Please wait ...   <span id="gif">()</span></h1></div>
+	<div id="button_menu" onclick="side_bar()">
+		<img src="assets/source/menu.png" alt="menu">
+	</div>
+	<div id="menu_mob"></div>
+	<div id="menu">
+		<img src="assets/source/Logo.png" class="logo" alt="logo">
+		<div class="setting">
+			<h2>Difficulty : </h2>
+			<div class="difficulty difficulty_active">Easy</div><div class="difficulty">Meduim</div><div class="difficulty">Hard</div><div class="difficulty">Extreme</div>
+		</div>
+		<div class="Copyright">Ⓒ Copyright 2022 HichemTech, All rights reserved</div>
+	</div>
+	<div id="all0">
+		<div id="all">
+			<div class="column0 _0">
+
+			</div>
+			<div class="column0 _1">
+
+			</div>
+			<div class="column0 _2">
+
+			</div>
+		</div>
+		<div id="bords">
+			<div id="try">
+				<div class="vertical_center">
+					<h5 id="t_attempts">Attempts :</h5>
+					<h5 id="number_try">1</h5>
+				</div>
+			</div>
+			<div id="commandes">
+				<div class="button check" onclick="check()"><div class="vertical_center">Check</div></div>
+				<div class="button restart" onclick="restart_fun()"><div class="vertical_center">Restart</div></div>
+			</div>
+			<div id="numbers">
+				<div class="row_numbers" style="margin-top: 3px;">
+					<div class="number" title="Keyboard : 0"><img src="assets/source/red.png" class="coin" alt="coin"></div>
+					<div class="number" title="Keyboard : 1"><img src="assets/source/blue.png" class="coin" alt="coin"></div>
+					<div class="number" title="Keyboard : 2"><img src="assets/source/yellow.png" class="coin" alt="coin"></div>
+					<div class="number" title="Keyboard : 3"><img src="assets/source/green.png" class="coin" alt="coin"></div>
+					<div class="number" title="Keyboard : 4"><img src="assets/source/white.png" class="coin" alt="coin"></div>
+				</div>
+				<div class="row_numbers">
+					<div class="number" title="Keyboard : 5"><img src="assets/source/orange.png" class="coin" alt="coin"></div>
+					<div class="number" title="Keyboard : 6"><img src="assets/source/pink.png" class="coin" alt="coin"></div>
+					<div class="number" title="Keyboard : 7"><img src="assets/source/brown.png" class="coin" alt="coin"></div>
+					<div class="number" title="Keyboard : 8"><img src="assets/source/grey.png" class="coin" alt="coin"></div>
+					<div class="number" title="Keyboard : 9"><img src="assets/source/black.png" class="coin" alt="coin"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="menu2">
+		<div id="app"></div>
+		<script>
+			var TIME_LIMIT = 180;
+
+			const FULL_DASH_ARRAY = 283;
+			var WARNING_THRESHOLD = TIME_LIMIT * 2 / 3;
+			var ALERT_THRESHOLD = TIME_LIMIT / 3;
+
+
+			const COLOR_CODES = {
+			  info: {
+			    color: "green"
+			  },
+			  warning: {
+			    color: "orange",
+			    threshold: WARNING_THRESHOLD
+			  },
+			  alert: {
+			    color: "red",
+			    threshold: ALERT_THRESHOLD
+			  }
+			};
+
+			let timePassed = 0;
+			let timeLeft = TIME_LIMIT;
+			let timerInterval = null;
+			let remainingPathColor = COLOR_CODES.info.color;
+
+			document.getElementById("app").innerHTML = `
+			<div class="base-timer">
+			  <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+			    <g class="base-timer__circle">
+			      <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+			      <path
+			        id="base-timer-path-remaining"
+			        stroke-dasharray="283"
+			        class="base-timer__path-remaining ${remainingPathColor}"
+			        d="
+			          M 50, 50
+			          m -45, 0
+			          a 45,45 0 1,0 90,0
+			          a 45,45 0 1,0 -90,0
+			        "
+			      ></path>
+			    </g>
+			  </svg>
+			  <span id="base-timer-label" class="base-timer__label">${formatTime(
+			    timeLeft
+			  )}</span>
+			</div>
+			`;
+
+			//startTimer();
+
+			function onTimesUp() {
+			  clearInterval(timerInterval);
+			  lose();
+				can_play = false;
+				$(document.getElementsByClassName('button check')[0]).addClass("disable_check");
+				clear_localStorage();
+			}
+
+			function startTimer() {
+			  timerInterval = setInterval(() => {
+			    timePassed = timePassed += 1;
+			    timeLeft = TIME_LIMIT - timePassed;
+			    document.getElementById("base-timer-label").innerHTML = formatTime(
+			      timeLeft
+			    );
+			    setRemainingPathColor(timeLeft);
+			    setCircleDasharray();
+
+			    if (timeLeft === 0) {
+			      onTimesUp();
+			    }
+			  }, 1000);
+			}
+
+			function formatTime(time) {
+			  const minutes = Math.floor(time / 60);
+			  let seconds = time % 60;
+
+			  if (seconds < 10) {
+			    seconds = `0${seconds}`;
+			  }
+
+			  return `${minutes}:${seconds}`;
+			}
+
+			function setRemainingPathColor(timeLeft) {
+			  const { alert, warning, info } = COLOR_CODES;
+			  if (timeLeft <= alert.threshold) {
+			    document
+			      .getElementById("base-timer-path-remaining")
+			      .classList.remove(warning.color);
+			    document
+			      .getElementById("base-timer-path-remaining")
+			      .classList.add(alert.color);
+			  } else if (timeLeft <= warning.threshold) {
+			    document
+			      .getElementById("base-timer-path-remaining")
+			      .classList.remove(info.color);
+			    document
+			      .getElementById("base-timer-path-remaining")
+			      .classList.add(warning.color);
+			  } else if (timeLeft > warning.threshold) {
+			  	document
+			      .getElementById("base-timer-path-remaining")
+			      .classList.remove(alert.color);
+			  	document
+			      .getElementById("base-timer-path-remaining")
+			      .classList.remove(warning.color);
+			    document
+			      .getElementById("base-timer-path-remaining")
+			      .classList.add(info.color);
+			  }
+			}
+
+			function calculateTimeFraction() {
+			  const rawTimeFraction = timeLeft / TIME_LIMIT;
+			  return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
+			}
+
+			function setCircleDasharray() {
+			  const circleDasharray = `${(
+			    calculateTimeFraction() * FULL_DASH_ARRAY
+			  ).toFixed(0)} 283`;
+			  document
+			    .getElementById("base-timer-path-remaining")
+			    .setAttribute("stroke-dasharray", circleDasharray);
+			}
+		</script>
+	</div>
+
+	<!-- Modal -->
+	<div id="myModal" class="modal">
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<img src="assets/source/logo_win.png" class="logo_win_lose" alt="logo_win">
+			<p class="comment">You broken the code in <span id="final_trys">5</span> attempts.</p>
+			<div class="row_final">
+				<div class="column_final"><img src="assets/source/white.png" class="coin" alt="coin"></div>
+				<div class="column_final"><img src="assets/source/white.png" class="coin" alt="coin"></div>
+				<div class="column_final"><img src="assets/source/white.png" class="coin" alt="coin"></div>
+				<div class="column_final"><img src="assets/source/white.png" class="coin" alt="coin"></div>
+				<div class="column_final"><img src="assets/source/white.png" class="coin" alt="coin"></div>
+				<div class="column_final"><img src="assets/source/white.png" class="coin" alt="coin"></div>
+				<div class="column_final"><img src="assets/source/white.png" class="coin" alt="coin"></div>
+			</div>
+			<div class="groupe_button">
+				<div class="button_final" onclick="share_results()">
+					Share your results
+				</div>
+				<div class="button_final" onclick="play_again()">
+					Play again
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="myModal2" class="modal2">
+		<div class="modal2-content">
+			<span class="close2">&times;</span>
+			<h2 style="text-align: center;">Are you sur ?</h2>
+			<div class="groupe_button2">
+				<div class="button_final2" onclick="cancel()">
+					cancel
+				</div>
+				<div class="button_final2" onclick="confirme()">
+					yes
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+
+
+		var rows0 = document.getElementsByClassName('row_num');
+		var rows1 = document.getElementsByClassName('row_rep');
+		var rows2 = document.getElementsByClassName('row');
+		var column = document.getElementsByClassName('column');
+		var index_of_row_selected = rows2.length - 1;
+		var index_of_column_selected = column.length - 1;
+		// Get the modal
+		var modal = document.getElementById("myModal");
+		var modal2 = document.getElementById("myModal2");
+		/*setup*/
+		var testCode;
+		var var_code_true;
+		var code_true;
+		var numbers_probalities;
+		var var_numbers_probalities;
+		//
+		var num_true_true = 0;
+		var num_exist = 0;
+		var num_true_false = 0;
+		var num_false_false = 0;
+
+		/* Saving game */
+		var truecode_stocked = [];
+		var big_array_coins = [];
+		var big_array_rep = [];
+		/*/// Saving game */
+		//
+		var can_play = true;
+		var difficulty = "Easy";
+		//
+		var element_variable;
+		var variable_bool;
+
+		let activeEle = $(".active");
+
+		$(rows0[rows0.length - 1]).addClass("row_active");
+		$(rows1[rows1.length - 1]).addClass("row_active");
+		$(rows2[rows2.length - 1]).addClass("row_active");
+		activeEle.removeClass('active');
+
+
+		/* // setup*/
+		function indexInClass(element, myClass) {
+			return Array.from(document.getElementsByClassName(myClass)).indexOf(element);
+		}
+
+		function to_next_column() {
+			if (index_of_column_selected !== 0 && can_play) {
+				if (Array.from(column[index_of_column_selected].parentElement.children).indexOf(column[index_of_column_selected]) === 0) {
+					index_of_column_selected = index_of_column_selected + 6;
+					activeEle.removeClass('active');
+
+					$(document.getElementsByClassName('column')[index_of_column_selected]).addClass('active');
+				}
+				else{
+					index_of_column_selected--;
+					activeEle.removeClass('active');
+
+					$(document.getElementsByClassName('column')[index_of_column_selected]).addClass('active');
+				}
+			}
+		}
+		function to_previous_column() {
+			if ((index_of_column_selected !== column.length - 1 || Array.from(column[index_of_column_selected].parentElement.children).indexOf(column[index_of_column_selected]) === column[index_of_column_selected].parentElement.children.length - 1) && can_play) {
+				if (Array.from(column[index_of_column_selected].parentElement.children).indexOf(column[index_of_column_selected]) === column[index_of_column_selected].parentElement.children.length - 1) {
+					index_of_column_selected = index_of_column_selected - 6;
+					activeEle.removeClass('active');
+
+					$(document.getElementsByClassName('column')[index_of_column_selected]).addClass('active');
+				}
+				else{
+					index_of_column_selected++;
+					activeEle.removeClass('active');
+
+					$(document.getElementsByClassName('column')[index_of_column_selected]).addClass('active');
+				}
+			}
+		}
+
+		function to_next_row() {
+			index_of_row_selected--;
+			let rowActive = $(".row_active");
+			rowActive.addClass("opactity_moy");
+			rowActive.removeClass("row_active");
+			activeEle.removeClass('active');
+			$(rows2[index_of_row_selected].children[6]).addClass("active");
+			index_of_column_selected = Array.from(column).indexOf(rows2[index_of_row_selected].children[6]);
+			$(rows0[index_of_row_selected]).addClass("row_active");
+			$(rows1[index_of_row_selected]).addClass("row_active");
+			$(rows2[index_of_row_selected]).addClass("row_active");
+			document.getElementById('number_try').innerHTML = Number(document.getElementById('number_try').innerHTML) + 1;
+		}
+
+		document.onkeydown = function (event) {
+			if (event.keyCode === 37 && can_play) {
+				to_next_column();
+			}
+			else if (event.keyCode === 39 && can_play){
+				to_previous_column();
+			}
+			else if ((event.keyCode <= 105 && event.keyCode >= 96) && can_play){
+				if ((difficulty === "Meduim" || difficulty === "Extreme") || ((difficulty === "Easy" || difficulty === "Hard") && (event.keyCode - 96) !== 9 && (event.keyCode - 96) !== 8)) {
+					var n = document.getElementsByClassName('number');
+					setCoinNumber(column[index_of_column_selected], n[event.keyCode - 96].innerHTML, "other");
+					to_next_column();
+				}
+			}
+			else if (event.keyCode === 13 && can_play){
+				if (modal2.style.display === "block") {
+					confirme();
+				}
+				else{
+					if (can_play){
+						check();
+					}
+				}
+			}
+			else if (event.keyCode === 27 && modal2.style.display === "block"){
+				cancel();
+			}
+			else if (event.keyCode === 27 && modal.style.display === "block"){
+				modal.style.display = "none";
+			}
+		}
+
+		function setCoinNumber(element, innerHtml, type_) {
+			if (type_ === "img") {
+				element.innerHTML = "<img src=" + innerHtml + "'assets/source/.png' class='coin' alt='coin'>";
+			}
+			else if (type_ === "text"){
+				element.innerHTML = "<h4>" + innerHtml + "</h4>";
+			}
+			else{
+				element.innerHTML = innerHtml;
+			}
+		}
+
+		function preSetIntClear() {
+			timePassed = 0;
+			startTimer();
+			for (let i = column.length - 1; i >= 0; i--) {
+				setCoinNumber(column[i], "white", "img");
+			}
+			for (let i = document.getElementsByClassName('column_rep').length - 1; i >= 0; i--) {
+				setCoinNumber(document.getElementsByClassName('column_rep')[i], "0", "text");
+			}
+			for (let i = rows2.length - 1; i >= 0; i--) {
+				rows2[i].className="row";
+				rows1[i].className="row_rep";
+				rows0[i].className="row_num";
+			}
+			$(rows2[rows2.length - 1]).addClass("row_active");
+			$(rows1[rows2.length - 1]).addClass("row_active");
+			$(rows0[rows2.length - 1]).addClass("row_active");
+
+			document.getElementById('number_try').innerHTML="1";
+
+			index_of_row_selected = rows2.length - 1;
+			index_of_column_selected = column.length - 1;
+
+			activeEle.removeClass('active');
+			$(document.getElementsByClassName('column')[index_of_column_selected]).addClass('active');
+			setCode(difficulty);
+			can_play = true;
+			$(".disable_check").removeClass("disable_check");
+		}
+
+		function setCode(difficulty_) {
+			if (localStorage.getItem("arr_truecode") === "" || localStorage.getItem("arr_truecode") === null) {
+				let keyboard_numbers = document.getElementsByClassName('number');
+				if (difficulty_ === "Easy") {
+					keyboard_numbers[keyboard_numbers.length - 1].style.visibility="hidden";
+					keyboard_numbers[keyboard_numbers.length - 2].style.visibility="hidden";
+					numbers_probalities = ["red", "blue", "yellow", "green", "white", "orange", "pink", "brown"];
+					var_numbers_probalities = [];
+					for (let i = 0; i < numbers_probalities.length; i++) {
+						var_numbers_probalities[i] = numbers_probalities[i];
+					}
+					code_true = [];
+					for (let i = 0; i < 7; i++) {
+						let x = Math.floor(Math.random() * var_numbers_probalities.length);
+						code_true.push(var_numbers_probalities[x]);
+						var_numbers_probalities.splice(var_numbers_probalities.indexOf(var_numbers_probalities[x]), 1);
+					}
+				}
+				else if (difficulty_ === "Meduim") {
+					keyboard_numbers[keyboard_numbers.length - 1].style.visibility="visible";
+					keyboard_numbers[keyboard_numbers.length - 2].style.visibility="visible";
+					numbers_probalities = ["red", "blue", "yellow", "green", "white", "orange", "pink", "brown", "grey", "black"];
+					var_numbers_probalities = [];
+					for (let i = 0; i < numbers_probalities.length; i++) {
+						var_numbers_probalities[i] = numbers_probalities[i];
+					}
+					code_true = [];
+					for (let i = 0; i < 7; i++) {
+						let x = Math.floor(Math.random() * var_numbers_probalities.length);
+						code_true.push(var_numbers_probalities[x]);
+						var_numbers_probalities.splice(var_numbers_probalities.indexOf(var_numbers_probalities[x]), 1);
+					}
+				}
+				else if (difficulty_ === "Hard") {
+					keyboard_numbers[keyboard_numbers.length - 1].style.visibility="hidden";
+					keyboard_numbers[keyboard_numbers.length - 2].style.visibility="hidden";
+					numbers_probalities = ["red", "blue", "yellow", "green", "white", "orange", "pink", "brown"];
+					var_numbers_probalities = [];
+					for (let i = 0; i < numbers_probalities.length; i++) {
+						var_numbers_probalities[i] = numbers_probalities[i];
+					}
+					code_true = [];
+					for (let i = 0; i < 7; i++) {
+						let x = Math.floor(Math.random() * var_numbers_probalities.length);
+						code_true.push(var_numbers_probalities[x]);
+					}
+				}
+				else if (difficulty_ === "Extreme") {
+					keyboard_numbers[keyboard_numbers.length - 1].style.visibility="visible";
+					keyboard_numbers[keyboard_numbers.length - 2].style.visibility="visible";
+					numbers_probalities = ["red", "blue", "yellow", "green", "white", "orange", "pink", "brown", "grey", "black"];
+					var_numbers_probalities = [];
+					for (let i = 0; i < numbers_probalities.length; i++) {
+						var_numbers_probalities[i] = numbers_probalities[i];
+					}
+					code_true = [];
+					for (let i = 0; i < 7; i++) {
+						let x = Math.floor(Math.random() * var_numbers_probalities.length);
+						code_true.push(var_numbers_probalities[x]);
+					}
+				}
+				for (let i = document.getElementsByClassName('column_final').length - 1; i >= 0; i--) {
+					document.getElementsByClassName('column_final')[i].innerHTML = "<img src=" + code_true[6 - i] + "'assets/source/.png' class='coin' alt='coin'>";
+				}
+				for (let i = 0; i < code_true.length; i++) {
+					truecode_stocked[i] = code_true[i];
+				}
+				localStorage.setItem("arr_truecode", JSON.stringify(truecode_stocked));
+			}
+			else{
+				code_true = [];
+				for (let i = 0; i < JSON.parse(localStorage.getItem("arr_truecode")).length; i++) {
+					code_true[i] = JSON.parse(localStorage.getItem("arr_truecode"))[i];
+				}
+				for (let i = document.getElementsByClassName('column_final').length - 1; i >= 0; i--) {
+					document.getElementsByClassName('column_final')[i].innerHTML = "<img src=" + code_true[6 - i] + "'assets/source/.png' class='coin' alt='coin'>";
+				}
+				for (let i = 0; i < code_true.length; i++) {
+					truecode_stocked[i] = code_true[i];
+				}
+				let keyboard_numbers = document.getElementsByClassName('number');
+				if (difficulty_ === "Easy") {
+					keyboard_numbers[keyboard_numbers.length - 1].style.visibility="hidden";
+					keyboard_numbers[keyboard_numbers.length - 2].style.visibility="hidden";
+				}
+				else if (difficulty_ === "Meduim") {
+					keyboard_numbers[keyboard_numbers.length - 1].style.visibility="visible";
+					keyboard_numbers[keyboard_numbers.length - 2].style.visibility="visible";
+				}
+				else if (difficulty_ === "Hard") {
+					keyboard_numbers[keyboard_numbers.length - 1].style.visibility="hidden";
+					keyboard_numbers[keyboard_numbers.length - 2].style.visibility="hidden";
+				}
+				else if (difficulty_ === "Extreme") {
+					keyboard_numbers[keyboard_numbers.length - 1].style.visibility="visible";
+					keyboard_numbers[keyboard_numbers.length - 2].style.visibility="visible";
+				}
+			}
+		}
+
+		function check() {
+			if (can_play) {
+				num_true_true = 0;
+				num_exist = 0;
+				num_true_false = 0;
+				num_false_false = 0;
+				var_code_true = [];
+				for (let i = 0; i < code_true.length; i++) {
+					var_code_true[i] = code_true[i];
+				}
+
+				//
+				testCode = [$(rows2[index_of_row_selected].children[6].getElementsByTagName('img')[0]).attr("src").replace("source/", "").replace(".png", ""), $(rows2[index_of_row_selected].children[5].getElementsByTagName('img')[0]).attr("src").replace("source/", "").replace(".png", ""), $(rows2[index_of_row_selected].children[4].getElementsByTagName('img')[0]).attr("src").replace("source/", "").replace(".png", ""), $(rows2[index_of_row_selected].children[3].getElementsByTagName('img')[0]).attr("src").replace("source/", "").replace(".png", ""), $(rows2[index_of_row_selected].children[2].getElementsByTagName('img')[0]).attr("src").replace("source/", "").replace(".png", ""), $(rows2[index_of_row_selected].children[1].getElementsByTagName('img')[0]).attr("src").replace("source/", "").replace(".png", ""), $(rows2[index_of_row_selected].children[0].getElementsByTagName('img')[0]).attr("src").replace("source/", "").replace(".png", "")];
+				for (let i = 0; i < testCode.length; i++) {
+					if (var_code_true[i] === testCode[i]) {
+						num_true_true++;
+					}
+				}
+				for (let i = 0; i < testCode.length; i++) {
+					if (var_code_true.includes(testCode[i])) {
+						num_exist++;
+						var_code_true.splice(var_code_true.indexOf(testCode[i]), 1);
+					}
+				}
+				num_true_false = num_exist - num_true_true;
+				num_false_false = testCode.length - num_exist;
+				setReponse(num_true_true, num_true_false, num_false_false);
+				if (num_true_true===testCode.length) {
+					win();
+					can_play = false;
+					$(document.getElementsByClassName('button check')[0]).addClass("disable_check");
+					clear_localStorage();
+				}
+				else{
+					if (index_of_row_selected === 0) {
+						lose();
+						can_play = false;
+						$(document.getElementsByClassName('button check')[0]).addClass("disable_check");
+						clear_localStorage();
+					}
+					else{
+						big_array_coins.push([testCode[6],testCode[5],testCode[4],testCode[3],testCode[2],testCode[1],testCode[0]]);
+						big_array_rep.push([rows1[index_of_row_selected].getElementsByClassName('column_rep')[0].getElementsByTagName('h4')[0].innerHTML, rows1[index_of_row_selected].getElementsByClassName('column_rep')[1].getElementsByTagName('h4')[0].innerHTML, rows1[index_of_row_selected].getElementsByClassName('column_rep')[2].getElementsByTagName('h4')[0].innerHTML]);
+						localStorage.setItem("arr_coins", JSON.stringify(big_array_coins));
+						localStorage.setItem("arr_rep", JSON.stringify(big_array_rep));
+						to_next_row();
+					}
+				}
+			}
+		}
+
+		function restart_fun() {
+			element_variable = document.getElementsByClassName('difficulty_active')[0];
+			variable_bool = false;
+			if (index_of_row_selected === rows2.length - 1) {
+				confirme();
+			}
+			else{
+				open_modal2();
+			}
+		}
+
+		function confirme() {
+			if (variable_bool) {
+				force_close_side_bar();
+				difficulty = element_variable.innerHTML;
+				$(".difficulty_active").removeClass('difficulty_active');
+				$(element_variable).addClass('difficulty_active');
+				document.cookie = "difficulty_stocked="+difficulty;
+				preSetIntClear();
+			}
+			else{
+				preSetIntClear();
+			}
+			clear_localStorage();
+			modal2.style.display = "none";
+		}
+
+		function cancel() {
+			modal2.style.display = "none";
+		}
+
+		function side_bar() {
+			var side_bar = document.getElementById('menu_mob');
+			if (side_bar.style.left === "0px") {
+				side_bar.style.left = "-102vw";
+			}
+			else{
+				side_bar.style.left = "0px";
+			}
+		}
+		function force_close_side_bar() {
+			var side_bar = document.getElementById('menu_mob');
+			side_bar.style.left = "-102vw";
+		}
+
+
+		// When the user clicks on the button, open the modal
+		function open_modal() {
+		  modal.style.display = "block";
+		}
+		// When the user clicks on the button, open the modal
+		function open_modal2() {
+		  modal2.style.display = "block";
+		}
+
+		function play_again() {
+			modal.style.display = "none";
+			preSetIntClear();
+
+		}
+
+		function share_results() {
+			alert("Coming soon ...");
+		}
+
+		function setReponse(true_true, true_false, false_false) {
+			rows1[index_of_row_selected].getElementsByClassName('column_rep')[0].getElementsByTagName('h4')[0].innerHTML=false_false;
+			rows1[index_of_row_selected].getElementsByClassName('column_rep')[1].getElementsByTagName('h4')[0].innerHTML=true_false;
+			rows1[index_of_row_selected].getElementsByClassName('column_rep')[2].getElementsByTagName('h4')[0].innerHTML=true_true;
+		}
+
+		function win() {
+			document.getElementsByClassName('logo_win_lose')[0].src="source/logo_win.png";
+			const xx = document.getElementById('number_try').innerHTML;
+			document.getElementsByClassName('comment')[0].innerHTML='You breaked the code in <span id="final_trys">'+xx+'</span> attempts.';
+			document.getElementsByClassName('comment')[0].style.color='darkgreen';
+			open_modal();
+		}
+		function lose() {
+			document.getElementsByClassName('logo_win_lose')[0].src="source/logo_lose.png";
+			const xx = document.getElementById('number_try').innerHTML;
+			document.getElementsByClassName('comment')[0].innerHTML="You Didn't break the code even you tried <span id='final_trys'>"+xx+"</span> attempts.";
+			document.getElementsByClassName('comment')[0].style.color='red';
+			open_modal();
+		}
+
+		function clear_localStorage() {
+			truecode_stocked = [];
+			big_array_rep = [];
+			big_array_coins = [];
+			localStorage.setItem("arr_coins", "");
+	        localStorage.setItem("arr_rep", "");
+	        localStorage.setItem("arr_truecode", "");
+		}
+
+        $(document).ready(function () {
+            let content = '';
+            for (let i = 0; i < 30; i++) {
+                content += '<div class="row_num"><div class="num">'+(30 - i)+'</div>\</div>';
+            }
+            $(content).appendTo($(".column0._0"));
+            content = '';
+            for (let i = 0; i < 30; i++) {
+                content += '<div class="row_rep"><div class="column_rep"><h4>0</h4></div><div class="column_rep"><h4>0</h4></div><div class="column_rep"><h4>0</h4></div></div>';
+            }
+            $(content).appendTo($(".column0._1"));
+            content = '';
+            for (let i = 0; i < 30; i++) {
+                content += '<div class="row">';
+                for (let i2 = 0; i2 < 7; i2++) {
+                    content += '<div class="column c_hover"><img src="assets/source/white.png" class="coin" alt="coin"></div>';
+                }
+                content += '</div>';
+            }
+            $(content).appendTo($(".column0._2"));
+
+            document.getElementById('menu_mob').innerHTML=document.getElementById('menu').innerHTML;
+            $(document.getElementsByClassName('column')[index_of_column_selected]).addClass('active');
+
+            for (let i = column.length - 1; i >= 0; i--) {
+                column[i].onclick = function () {
+                    if (indexInClass(this.parentElement, "row") === index_of_row_selected && can_play) {
+                        activeEle.removeClass('active');
+                        $(this).addClass('active');
+                        index_of_column_selected = indexInClass(this, "column");
+                    }
+                }
+            }
+
+            //on click on clavier number visuiel
+            for (let i = document.getElementsByClassName('number').length - 1; i >= 0; i--) {
+                document.getElementsByClassName('number')[i].onclick = function () {
+                    if (can_play) {
+                        setCoinNumber(column[index_of_column_selected], this.innerHTML, "other");
+                        to_next_column();
+                    }
+                }
+            }
+
+            //click on difficulties
+            for (let i = document.getElementsByClassName('difficulty').length - 1; i >= 0; i--) {
+                document.getElementsByClassName('difficulty')[i].onclick = function () {
+                    if (!this.classList.contains('difficulty_active')) {
+                        element_variable = this;
+                        variable_bool = true;
+                        if (index_of_row_selected === rows2.length - 1) {
+                            confirme();
+                        }
+                        else{
+                            if (can_play) {
+                                open_modal2();
+                            }
+                            else{
+                                confirme();
+                            }
+
+                        }
+                    }
+                }
+            }
+
+            // When the user clicks on <span> (x), close the modal
+            document.getElementsByClassName('close')[0].onclick = function() {
+                modal.style.display = "none";
+            }
+
+            // When the user clicks on <span> (x), close the modal
+            document.getElementsByClassName('close2')[0].onclick = function() {
+                modal2.style.display = "none";
+            }
+            /**/
+            preSetIntClear();
+            document.getElementById('all').scrollTop=5000000000;
+
+
+            if (localStorage.getItem("arr_coins") !== "" && localStorage.getItem("arr_coins") !== null) {
+                index_of_row_selected = (rows2.length - (JSON.parse(localStorage.getItem("arr_coins"))).length) - 1;
+                for (let i = 0; i < JSON.parse(localStorage.getItem("arr_coins")).length; i++) {
+                    big_array_coins[i] = [];
+                    big_array_rep[i] = [];
+                    for (var x = 0; x < (JSON.parse(localStorage.getItem("arr_coins")))[i].length; x++) {
+                        big_array_coins[i][x] = JSON.parse(localStorage.getItem("arr_coins"))[i][x];
+                    }
+                    for (var y = 0; y < (JSON.parse(localStorage.getItem("arr_rep")))[i].length; y++) {
+                        big_array_rep[i][y] = JSON.parse(localStorage.getItem("arr_rep"))[i][y];
+                    }
+                }
+                for (let i = rows2.length - 1; i > index_of_row_selected; i--) {
+                    rows2[rows2.length - 1 + index_of_row_selected - i + 1].getElementsByClassName('column')[0].innerHTML = "<img src="+big_array_coins[i - index_of_row_selected - 1][0]+"'assets/source/.png' class='coin' alt='coin'>";
+                    rows2[rows2.length - 1 + index_of_row_selected - i + 1].getElementsByClassName('column')[1].innerHTML = "<img src="+big_array_coins[i - index_of_row_selected - 1][1]+"'assets/source/.png' class='coin' alt='coin'>";
+                    rows2[rows2.length - 1 + index_of_row_selected - i + 1].getElementsByClassName('column')[2].innerHTML = "<img src="+big_array_coins[i - index_of_row_selected - 1][2]+"'assets/source/.png' class='coin' alt='coin'>";
+                    rows2[rows2.length - 1 + index_of_row_selected - i + 1].getElementsByClassName('column')[3].innerHTML = "<img src="+big_array_coins[i - index_of_row_selected - 1][3]+"'assets/source/.png' class='coin' alt='coin'>";
+                    rows2[rows2.length - 1 + index_of_row_selected - i + 1].getElementsByClassName('column')[4].innerHTML = "<img src="+big_array_coins[i - index_of_row_selected - 1][4]+"'assets/source/.png' class='coin' alt='coin'>";
+                    rows2[rows2.length - 1 + index_of_row_selected - i + 1].getElementsByClassName('column')[5].innerHTML = "<img src="+big_array_coins[i - index_of_row_selected - 1][5]+"'assets/source/.png' class='coin' alt='coin'>";
+                    rows2[rows2.length - 1 + index_of_row_selected - i + 1].getElementsByClassName('column')[6].innerHTML = "<img src="+big_array_coins[i - index_of_row_selected - 1][6]+"'assets/source/.png' class='coin' alt='coin'>";
+
+
+                    rows1[rows2.length - 1 + index_of_row_selected - i + 1].getElementsByClassName('column_rep')[0].innerHTML = "<h4>"+big_array_rep[i - index_of_row_selected - 1][0]+"</h4>";
+                    rows1[rows2.length - 1 + index_of_row_selected - i + 1].getElementsByClassName('column_rep')[1].innerHTML = "<h4>"+big_array_rep[i - index_of_row_selected - 1][1]+"</h4>";
+                    rows1[rows2.length - 1 + index_of_row_selected - i + 1].getElementsByClassName('column_rep')[2].innerHTML = "<h4>"+big_array_rep[i - index_of_row_selected - 1][2]+"</h4>";
+                }
+                let mop = index_of_row_selected;
+                index_of_row_selected = rows2.length - 1;
+                for (let i = 0; i < rows2.length - 1 - mop; i++) {
+                    to_next_row();
+                }
+            }
+        });
+	</script>
+</body>
+</html>
