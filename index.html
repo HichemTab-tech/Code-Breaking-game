@@ -9,27 +9,27 @@
 	<!-- Primary Meta Tags -->
 	<meta name="title" content="Code Breaking game - HichemTech">
 	<meta name="description" content="A simple game named 'Code Breaking' built as Web page with (Html, JavaScript, Jquery, Css, Bootstrap).">
-	<meta property="image" content="https://hichemtech.works/works/Code-Breaking-game/source/big-picture.png">
-	<meta property="image:secure_url" content="https://hichemtech.works/works/Code-Breaking-game/source/big-picture.png" />
+	<meta property="image" content="https://hichemtab-tech.github.io/Code-Breaking-game/meta-data/picture.png">
+	<meta property="image:secure_url" content="https://hichemtab-tech.github.io/Code-Breaking-game/meta-data/picture.png" />
 	<meta property="image:alt" content="Code Breaking game (Logo)" />
 
 	<!-- Open Graph / Facebook -->
 	<meta property="og:type" content="website">
-	<meta property="og:url" content="https://hichemtech.works/works/Code-Breaking-game">
+	<meta property="og:url" content="https://hichemtab-tech.github.io/Code-Breaking-game">
 	<meta property="og:title" content="Code Breaking game - HichemTech">
 	<meta property="og:description" content="A simple game named 'Code Breaking' built as Web page with (Html, JavaScript, Jquery, Css, Bootstrap).">
-	<meta property="og:image" content="https://hichemtech.works/works/Code-Breaking-game/source/big-picture.png">
-	<meta property="og:image:secure_url" content="https://hichemtech.works/works/Code-Breaking-game/source/big-picture.png" />
+	<meta property="og:image" content="https://hichemtab-tech.github.io/Code-Breaking-game/meta-data/picture.png">
+	<meta property="og:image:secure_url" content="https://hichemtab-tech.github.io/Code-Breaking-game/meta-data/picture.png" />
 	<meta property="og:image:alt" content="Code Breaking game (Logo)" />
 	<meta property="fb:app_id" content="717203739588036"/>
 
 	<!-- Twitter -->
 	<meta property="twitter:card" content="summary_large_image">
-	<meta property="twitter:url" content="https://hichemtech.works/works/Code-Breaking-game">
+	<meta property="twitter:url" content="https://hichemtab-tech.github.io/Code-Breaking-game">
 	<meta property="twitter:title" content="Code Breaking game - HichemTech">
 	<meta property="twitter:description" content="A simple game named 'Code Breaking' built as Web page with (Html, JavaScript, Jquery, Css, Bootstrap).">
-	<meta property="twitter:image" content="https://hichemtech.works/works/Code-Breaking-game/source/big-picture.png">
-	<meta property="twitter:image:secure_url" content="https://hichemtech.works/works/Code-Breaking-game/source/big-picture.png" />
+	<meta property="twitter:image" content="https://hichemtab-tech.github.io/Code-Breaking-game/meta-data/picture.png">
+	<meta property="twitter:image:secure_url" content="https://hichemtab-tech.github.io/Code-Breaking-game/meta-data/picture.png" />
 	<meta property="twitter:image:alt" content="Code Breaking game (Logo)" />
 
 
@@ -48,7 +48,7 @@
 		<img src="assets/source/Logo.png" class="logo" alt="logo">
 		<div class="setting">
 			<h2>Difficulty : </h2>
-			<div class="difficulty difficulty_active">Easy</div><div class="difficulty">Meduim</div><div class="difficulty">Hard</div><div class="difficulty">Extreme</div>
+			<div class="difficulty difficulty_active">Easy</div><div class="difficulty">Medium</div><div class="difficulty">Hard</div><div class="difficulty">Extreme</div>
 		</div>
 		<div class="Copyright">Ⓒ Copyright 2022 HichemTech, All rights reserved</div>
 	</div>
@@ -96,11 +96,11 @@
 	<div id="menu2">
 		<div id="app"></div>
 		<script>
-			var TIME_LIMIT = 180;
+			const TIME_LIMIT = 180;
 
 			const FULL_DASH_ARRAY = 283;
-			var WARNING_THRESHOLD = TIME_LIMIT * 2 / 3;
-			var ALERT_THRESHOLD = TIME_LIMIT / 3;
+			const WARNING_THRESHOLD = TIME_LIMIT * 2 / 3;
+			const ALERT_THRESHOLD = TIME_LIMIT / 3;
 
 
 			const COLOR_CODES = {
@@ -261,7 +261,7 @@
 				<div class="button_final2" onclick="cancel()">
 					cancel
 				</div>
-				<div class="button_final2" onclick="confirme()">
+				<div class="button_final2" onclick="confirm()">
 					yes
 				</div>
 			</div>
@@ -270,38 +270,38 @@
 	<script type="text/javascript">
 
 
-		var rows0 = document.getElementsByClassName('row_num');
-		var rows1 = document.getElementsByClassName('row_rep');
-		var rows2 = document.getElementsByClassName('row');
-		var column = document.getElementsByClassName('column');
-		var index_of_row_selected = rows2.length - 1;
-		var index_of_column_selected = column.length - 1;
+		let rows0 = document.getElementsByClassName('row_num');
+		let rows1 = document.getElementsByClassName('row_rep');
+		let rows2 = document.getElementsByClassName('row');
+		let column = document.getElementsByClassName('column');
+		let index_of_row_selected = rows2.length - 1;
+		let index_of_column_selected = column.length - 1;
 		// Get the modal
-		var modal = document.getElementById("myModal");
-		var modal2 = document.getElementById("myModal2");
+		let modal = document.getElementById("myModal");
+		let modal2 = document.getElementById("myModal2");
 		/*setup*/
-		var testCode;
-		var var_code_true;
-		var code_true;
-		var numbers_probalities;
-		var var_numbers_probalities;
+		let testCode;
+		let var_code_true;
+		let code_true;
+		let numbers_probalities;
+		let var_numbers_probalities;
 		//
-		var num_true_true = 0;
-		var num_exist = 0;
-		var num_true_false = 0;
-		var num_false_false = 0;
+		let num_true_true = 0;
+		let num_exist = 0;
+		let num_true_false = 0;
+		let num_false_false = 0;
 
 		/* Saving game */
-		var truecode_stocked = [];
-		var big_array_coins = [];
-		var big_array_rep = [];
+		let truecode_stocked = [];
+		let big_array_coins = [];
+		let big_array_rep = [];
 		/*/// Saving game */
 		//
-		var can_play = true;
-		var difficulty = "Easy";
+		let can_play = true;
+		let difficulty = "Easy";
 		//
-		var element_variable;
-		var variable_bool;
+		let element_variable;
+		let variable_bool;
 
 		let activeEle = $(".active");
 
@@ -352,7 +352,7 @@
 		function to_next_row() {
 			index_of_row_selected--;
 			let rowActive = $(".row_active");
-			rowActive.addClass("opactity_moy");
+			rowActive.addClass("opacity_moy");
 			rowActive.removeClass("row_active");
 			activeEle.removeClass('active');
 			$(rows2[index_of_row_selected].children[6]).addClass("active");
@@ -360,40 +360,39 @@
 			$(rows0[index_of_row_selected]).addClass("row_active");
 			$(rows1[index_of_row_selected]).addClass("row_active");
 			$(rows2[index_of_row_selected]).addClass("row_active");
-			document.getElementById('number_try').innerHTML = Number(document.getElementById('number_try').innerHTML) + 1;
+			document.getElementById('number_try').innerHTML = (Number(document.getElementById('number_try').innerHTML) + 1).toString();
 		}
 
-		document.onkeydown = function (event) {
-			if (event.keyCode === 37 && can_play) {
+		document.onkeydown = function(event) {
+			if (event.key === "ArrowLeft" && can_play) {
 				to_next_column();
-			}
-			else if (event.keyCode === 39 && can_play){
+			} else if (event.key === "ArrowRight" && can_play) {
 				to_previous_column();
-			}
-			else if ((event.keyCode <= 105 && event.keyCode >= 96) && can_play){
-				if ((difficulty === "Meduim" || difficulty === "Extreme") || ((difficulty === "Easy" || difficulty === "Hard") && (event.keyCode - 96) !== 9 && (event.keyCode - 96) !== 8)) {
-					var n = document.getElementsByClassName('number');
-					setCoinNumber(column[index_of_column_selected], n[event.keyCode - 96].innerHTML, "other");
+			} else if ((event.key >= "0" && event.key <= "9") && can_play) {
+				if (
+						(difficulty === "Medium" || difficulty === "Extreme") ||
+						((difficulty === "Easy" || difficulty === "Hard") &&
+								(parseInt(event.key) !== 9 && parseInt(event.key) !== 8))
+				) {
+					let n = document.getElementsByClassName("number");
+					setCoinNumber(column[index_of_column_selected], n[parseInt(event.key)].innerHTML, "other");
 					to_next_column();
 				}
-			}
-			else if (event.keyCode === 13 && can_play){
+			} else if (event.key === "Enter" && can_play) {
 				if (modal2.style.display === "block") {
-					confirme();
-				}
-				else{
-					if (can_play){
+					confirm();
+				} else {
+					if (can_play) {
 						check();
 					}
 				}
-			}
-			else if (event.keyCode === 27 && modal2.style.display === "block"){
+			} else if (event.key === "Escape" && modal2.style.display === "block") {
 				cancel();
-			}
-			else if (event.keyCode === 27 && modal.style.display === "block"){
+			} else if (event.key === "Escape" && modal.style.display === "block") {
 				modal.style.display = "none";
 			}
-		}
+		};
+
 
 		function setCoinNumber(element, innerHtml, type_) {
 			if (type_ === "img") {
@@ -455,7 +454,7 @@
 						var_numbers_probalities.splice(var_numbers_probalities.indexOf(var_numbers_probalities[x]), 1);
 					}
 				}
-				else if (difficulty_ === "Meduim") {
+				else if (difficulty_ === "Medium") {
 					keyboard_numbers[keyboard_numbers.length - 1].style.visibility="visible";
 					keyboard_numbers[keyboard_numbers.length - 2].style.visibility="visible";
 					numbers_probalities = ["red", "blue", "yellow", "green", "white", "orange", "pink", "brown", "grey", "black"];
@@ -522,7 +521,7 @@
 					keyboard_numbers[keyboard_numbers.length - 1].style.visibility="hidden";
 					keyboard_numbers[keyboard_numbers.length - 2].style.visibility="hidden";
 				}
-				else if (difficulty_ === "Meduim") {
+				else if (difficulty_ === "Medium") {
 					keyboard_numbers[keyboard_numbers.length - 1].style.visibility="visible";
 					keyboard_numbers[keyboard_numbers.length - 2].style.visibility="visible";
 				}
@@ -563,7 +562,7 @@
 				}
 				num_true_false = num_exist - num_true_true;
 				num_false_false = testCode.length - num_exist;
-				setReponse(num_true_true, num_true_false, num_false_false);
+				setResponse(num_true_true, num_true_false, num_false_false);
 				if (num_true_true===testCode.length) {
 					win();
 					can_play = false;
@@ -592,14 +591,14 @@
 			element_variable = document.getElementsByClassName('difficulty_active')[0];
 			variable_bool = false;
 			if (index_of_row_selected === rows2.length - 1) {
-				confirme();
+				confirm();
 			}
 			else{
 				open_modal2();
 			}
 		}
 
-		function confirme() {
+		function confirm() {
 			if (variable_bool) {
 				force_close_side_bar();
 				difficulty = element_variable.innerHTML;
@@ -620,7 +619,7 @@
 		}
 
 		function side_bar() {
-			var side_bar = document.getElementById('menu_mob');
+			let side_bar = document.getElementById('menu_mob');
 			if (side_bar.style.left === "0px") {
 				side_bar.style.left = "-102vw";
 			}
@@ -629,7 +628,7 @@
 			}
 		}
 		function force_close_side_bar() {
-			var side_bar = document.getElementById('menu_mob');
+			let side_bar = document.getElementById('menu_mob');
 			side_bar.style.left = "-102vw";
 		}
 
@@ -653,7 +652,7 @@
 			alert("Coming soon ...");
 		}
 
-		function setReponse(true_true, true_false, false_false) {
+		function setResponse(true_true, true_false, false_false) {
 			rows1[index_of_row_selected].getElementsByClassName('column_rep')[0].getElementsByTagName('h4')[0].innerHTML=false_false;
 			rows1[index_of_row_selected].getElementsByClassName('column_rep')[1].getElementsByTagName('h4')[0].innerHTML=true_false;
 			rows1[index_of_row_selected].getElementsByClassName('column_rep')[2].getElementsByTagName('h4')[0].innerHTML=true_true;
@@ -683,7 +682,7 @@
 	        localStorage.setItem("arr_truecode", "");
 		}
 
-        $(document).ready(function () {
+		$(function() {
             let content = '';
             for (let i = 0; i < 30; i++) {
                 content += '<div class="row_num"><div class="num">'+(30 - i)+'</div>\</div>';
@@ -711,7 +710,7 @@
                 column[i].onclick = function () {
                     if (indexInClass(this.parentElement, "row") === index_of_row_selected && can_play) {
                         activeEle.removeClass('active');
-                        $(this).addClass('active');
+						this.classList.add('active');
                         index_of_column_selected = indexInClass(this, "column");
                     }
                 }
@@ -734,14 +733,14 @@
                         element_variable = this;
                         variable_bool = true;
                         if (index_of_row_selected === rows2.length - 1) {
-                            confirme();
+                            confirm();
                         }
                         else{
                             if (can_play) {
                                 open_modal2();
                             }
                             else{
-                                confirme();
+                                confirm();
                             }
 
                         }
@@ -768,10 +767,10 @@
                 for (let i = 0; i < JSON.parse(localStorage.getItem("arr_coins")).length; i++) {
                     big_array_coins[i] = [];
                     big_array_rep[i] = [];
-                    for (var x = 0; x < (JSON.parse(localStorage.getItem("arr_coins")))[i].length; x++) {
+                    for (let x = 0; x < (JSON.parse(localStorage.getItem("arr_coins")))[i].length; x++) {
                         big_array_coins[i][x] = JSON.parse(localStorage.getItem("arr_coins"))[i][x];
                     }
-                    for (var y = 0; y < (JSON.parse(localStorage.getItem("arr_rep")))[i].length; y++) {
+                    for (let y = 0; y < (JSON.parse(localStorage.getItem("arr_rep")))[i].length; y++) {
                         big_array_rep[i][y] = JSON.parse(localStorage.getItem("arr_rep"))[i][y];
                     }
                 }
